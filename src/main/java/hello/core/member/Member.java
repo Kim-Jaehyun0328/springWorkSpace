@@ -1,5 +1,10 @@
 package hello.core.member;
 
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
 public class Member {
     private Long id;
     private String name;

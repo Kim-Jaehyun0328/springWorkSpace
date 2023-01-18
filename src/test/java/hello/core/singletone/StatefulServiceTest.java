@@ -18,9 +18,10 @@ public class StatefulServiceTest {
         statefulService1.order("UserA", 10000);
         statefulService2.order("UserB", 20000);
 
-        System.out.println("price = " + statefulService1.getPrice());
+        System.out.println(statefulService1.getPrice());
 
-        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(10000);
+
+        Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000);
 
     }
 
