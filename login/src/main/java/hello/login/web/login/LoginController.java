@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +75,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+    //@PostMapping("/login")
     public String loginV3(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, HttpServletRequest req){
 
         if(result.hasErrors()){
@@ -94,6 +95,29 @@ public class LoginController {
 
 
         return "redirect:/";
+    }
+
+    @PostMapping("/login")
+    public String loginV4(@Valid @ModelAttribute LoginForm loginForm, BindingResult result
+             ,@RequestParam(defaultValue = "/") String redirectURL, HttpServletRequest req){
+
+        if(result.hasErrors()){
+            return "login/loginForm";
+        }
+
+        Member member = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
+        log.info("login? {}", member);
+
+        if(member == null){
+            result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "login/loginForm";
+        }
+
+        HttpSession session = req.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+
+
+        return "redirect:" + redirectURL;
     }
 
     //@PostMapping("/logout")
