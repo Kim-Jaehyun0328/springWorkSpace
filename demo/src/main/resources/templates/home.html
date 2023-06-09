@@ -10,15 +10,18 @@
 <div>
     <h3>임의 URL로 이동:</h3>
     <ul>
-        <li th:if="${loggedIn}">
+        <li th:if="${loggedIn == null}">
+            <a th:href="@{'/login'}">로그인하기</a>
+        </li>
+        <li th:unless="${loggedIn == null}">
             <a th:href="@{'/logout'}">로그아웃하기</a>
         </li>
-        <li th:unless="${loggedIn}">
-            <a th:href="@{'/login'}">로그인하기</a>
+        <li th:if="${loggedIn}">
+            <a th:href="@{'/profile'}">프로필 확인하기</a>
         </li>
         <li><a th:href="@{'/ai'}">얼굴인식하기</a></li>
         <li><a th:href="@{'/papago'}">파파고 번역하기</a></li>
-        <li><a th:href="@{'/page4'}">페이지 4</a></li>
+        <li><a th:href="@{'/search'}">네이버 검색하기</a></li>
         <li><a th:href="@{'/page5'}">페이지 5</a></li>
     </ul>
 </div>

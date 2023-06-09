@@ -1,0 +1,39 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Search Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Search Page</h1>-->
+<!--<form action="#" th:action="@{/search}" method="get">-->
+<!--  <input type="text" name="query" placeholder="검색어를 입력하세요" />-->
+<!--  <button type="submit">검색</button>-->
+<!--</form>-->
+<!--<ul>-->
+<!--  <li th:each="result : ${searchResults}" th:text="${result}"></li>-->
+<!--</ul>-->
+<!--<li><a th:href="@{'/'}">홈으로</a></li>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Page</title>
+</head>
+<body>
+<h1>Search Page</h1>
+<form action="#" th:action="@{/search}" method="get">
+  <input type="text" name="query" placeholder="검색어를 입력하세요" />
+  <button type="submit">검색</button>
+</form>
+<ul>
+  <li th:each="result : ${searchResults}">
+    <a th:href="${result.link}" th:text="${result.title}"></a>
+  </li>
+</ul>
+<li><a th:href="@{'/'}">홈으로</a></li>
+</body>
+</html>

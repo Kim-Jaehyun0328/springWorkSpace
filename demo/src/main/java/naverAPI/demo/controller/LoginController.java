@@ -1,29 +1,29 @@
 package naverAPI.demo.controller;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import naverAPI.demo.domain.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
 @Controller
-public class TotalController {
+public class LoginController {
 
     private String clientId = "MUM8jVsHBJm8YkYlJns9";
     private String clientSecret = "FgwoEU90MP";
 
-
-    private static Boolean loggedIn = Boolean.FALSE;
-
     @GetMapping("/")
-    public String home() {return "home";}
+    public String home(HttpSession session, Model model) {
+        User loginUser = (User) session.getAttribute("loginUser");
+        model.addAttribute("loggedIn", loginUser);
+        System.out.println("loginUser.toString() = " + loginUser);
+        return "home";}
 
 
     @GetMapping("/login")
@@ -46,20 +46,22 @@ public class TotalController {
     }
 
     @GetMapping("/naver-login")
-    public String getNaverLogin(@RequestParam("code") String code, @RequestParam("state") String state, Model model) {
+    public String getNaverLogin(@RequestParam("code") String code, @RequestParam("state") String state, Model model, HttpSession session) {
         System.out.println("code = " + code);
         System.out.println("state = " + state);
 
-        loggedIn = Boolean.TRUE;
-        model.addAttribute("loggedIn", loggedIn);
+        User user = new User(code, state);
+        session.setAttribute("loginUser", user);
+        model.addAttribute("loggedIn", user);
         return "home";
     }
 
 
     @GetMapping("/logout")
-    public void getLogout(Model model, HttpServletResponse response) throws IOException {
-        loggedIn = Boolean.FALSE;
-        model.addAttribute("loggedIn", loggedIn);
+    public void getLogout(Model model, HttpServletResponse response, HttpSession session) throws IOException {
+        User loginUser = (User) session.getAttribute("loginUser");
+        session.invalidate();
+        model.addAttribute("loggedIn", loginUser);
         response.sendRedirect("/");
     }
 
