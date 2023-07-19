@@ -1,6 +1,6 @@
 package hello.jdbc;
 
-public class test {
-    private Long id;
+public class test2 {
+    public Long id;
     private String username;
 }
