@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Upload</title>
+    <style>
+        #preview-image {
+            max-width: 300px;
+            max-height: 300px;
+        }
+    </style>
+    <script>
+        function previewImage(event) {
+            var preview = document.getElementById('preview-image');
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Image Upload</h1>
+<form action="/ai" method="post" enctype="multipart/form-data">
+    <input type="file" name="imageFile" accept="image/*" onchange="previewImage(event)" />
+    <br />
+    <img id="preview-image" alt="Preview Image"  />
+    <br />
+    <button type="submit">Upload</button>
+</form>
+<img id="imgId" th:src="${imagePath}" alt="image"  />
+<p>닮은꼴: <span th:text="${value}"></span></p>
+<p>일치도: <span th:text="${confidence}"></span></p>
+<li><a th:href="@{'/'}">홈으로</a></li>
+</body>
+</html>
